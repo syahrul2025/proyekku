@@ -1,15 +1,17 @@
 <?php
-// Database configuration
-$host = "localhost";
-$user = "root"; // Ganti dengan username database Anda
-$password = ""; // Ganti dengan password database Anda
-$dbname = "silsilah_keluarga";
+// Path ke file JSON
+$jsonFile = 'data.json';
 
-// Create connection
-$conn = new mysqli($host, $user, $password, $dbname);
+// Ambil isi file JSON
+$jsonData = file_get_contents($jsonFile);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Decode data JSON menjadi array PHP
+$data = json_decode($jsonData, true);
+
+// Tampilkan data (contoh penggunaan)
+foreach ($data as $item) {
+    echo "Nama: " . $item['nama'] . "<br>";
+    echo "Hubungan: " . $item['hubungan'] . "<br>";
+    echo "<br>";
 }
 ?>
