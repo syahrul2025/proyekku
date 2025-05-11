@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Anggota</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="h4 text-center mb-4">Edit Anggota</h1>
+ 
+		   <form id="edit-member-form" action="backend/anggota_api.php?action=update" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="id_anggota" name="id_anggota">
+
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Nama Lengkap</label>
+                    <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan nama lengkap" required>
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Jenis Kelamin</label>
+                    <select id="gender" name="gender" class="form-select" required>
+                        <option value="Laki-Laki">Laki-Laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ayah" class="form-label">Ayah</label>
+                    <select id="ayah" name="ayah" class="form-select">
+                        <option value="">Pilih Ayah (Opsional)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="ibu" class="form-label">Ibu</label>
+                    <select id="ibu" name="ibu" class="form-select">
+                        <option value="">Pilih Ibu (Opsional)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="pasangan" class="form-label">Pasangan</label>
+                    <select id="pasangan" name="pasangan" class="form-select">
+                        <option value="">Pilih Pasangan (Opsional)</option>
+                    </select>
+                </div>
+                <!-- Tambahkan di dalam form, sebelum tombol submit -->
+                <div class="mb-3 text-center">
+                    <label class="form-label d-block">Foto Anggota</label>
+                    <!-- Preview Foto -->
+                    <img id="foto-preview" src="assets/img/default.jpg" alt="Foto Anggota" class="img-thumbnail mb-2" style="max-width: 200px;">
+                    <input type="file" id="foto" name="foto" class="form-control" accept="image/*">
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <a href="index.html" class="btn btn-link">Kembali ke Halaman Utama</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("id");
+
+            if (id) {
+                // Fetch data anggota berdasarkan ID
+                fetch(`http://localhost/Silsilah-Keluarga-Bani-Achmad-Zabidi/backend/anggota_api.php?action=get&id=${id}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error); // Tampilkan pesan error dari server
+                            return;
+                        }
+
+                        // Isi form dengan data anggota
+                        document.getElementById("id_anggota").value = data.id_anggota;
+                        document.getElementById("nama").value = data.nama;
+                        document.getElementById("gender").value = data.gender;
+                        document.getElementById("tanggal_lahir").value = data.tanggal_lahir;
+
+                        // Populate dropdowns
+                        populateDropdown("ayah", data.id_ayah);
+                        populateDropdown("ibu", data.id_ibu);
+                        populateDropdown("pasangan", data.id_pasangan);
+
+                        // Tampilkan foto jika ada
+                        if (data.foto) {
+                            document.getElementById('foto-preview').src = `assets/img/${data.foto}`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching member data:", error);
+                    });
+
+                // Preview saat user ganti file
+                document.getElementById('foto').addEventListener('change', function (e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                            document.getElementById('foto-preview').src = event.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Populate dropdown function
+            function populateDropdown(dropdownId, selectedId) {
+                fetch("http://localhost/Silsilah-Keluarga-Bani-Achmad-Zabidi/backend/anggota_api.php?action=get_parents")
+                    .then(response => response.json())
+                    .then(data => {
+                        const dropdown = document.getElementById(dropdownId);
+                        dropdown.innerHTML = ""; // Kosongkan dropdown terlebih dahulu
+
+                        // Tambahkan opsi default
+                        const defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.textContent = "Pilih " + dropdownId.charAt(0).toUpperCase() + dropdownId.slice(1);
+                        dropdown.appendChild(defaultOption);
+
+                        // Tambahkan opsi dari database
+                        data.forEach(parent => {
+                            const option = document.createElement("option");
+                            option.value = parent.id_anggota;
+                            option.textContent = parent.nama;
+
+                            // Tandai opsi sebagai "selected" jika ID-nya sesuai
+                            if (parent.id_anggota == selectedId) {
+                                option.selected = true;
+                            }
+
+                            dropdown.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching parents:", error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

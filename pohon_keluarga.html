@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pohon Keluarga</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    header {
+      font-family: Cormorant Garamond; 
+      font-size: 19px;
+      background: #339af0;
+      color: white;
+      padding: 5px;
+      text-align: center;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+      background-color: #f4f4f4;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .tree-container {
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      overflow: auto; 
+      width: 100%; 
+      height: calc(100vh - 60px); 
+      touch-action: none; 
+      position: relative;
+	 
+    }
+	
+    .tree-container svg {
+      display: block; 
+    }
+
+    .tree-frame {
+      position: relative;
+      padding: 1000px; 
+      border: 170px solid #000; 
+      border-image: url('bingkai-utama.png') 100 stretch; 
+      background-color: transparent;
+      background-image: url('background4.png'); 
+	  
+      background-size: cover;
+      background-repeat: no-repeat; 
+      background-position: center; 
+      margin: 0 px auto; 
+      width: fit-content; 
+      transform-origin: center center; 
+      transition: transform 0.2s ease; 
+    }
+	
+    .node {
+      text-align: center;
+      padding: 0px;
+      border-radius: 10px;
+      margin: 10px;
+      min-width: 180px;
+      border: 40px solid transparent; 
+      background-color: transparent;
+	  box-sizing: border-box; /* Pastikan padding dihitung dalam ukuran elemen */
+	  padding-bottom: 20px; /* Tambahkan ruang ekstra di bawah elemen */
+      position: relative; /* Pastikan elemen bisa memiliki child dengan posisi absolut */
+	  padding-top: 20px; /* Tambahkan ruang di atas elemen child */
+    }
+    
+    .node-content-male {
+      border-radius: 5px;
+      border: none;
+      box-shadow: none;
+	  background-color: transparent;
+	  padding: 30px;
+	  box-sizing: border-box; /* Pastikan padding dihitung dengan benar */
+	  font-size: 20px; /* Perbesar ukuran teks nama */
+	  font-weight: bold; /* Tambahkan ketebalan teks */
+	  text-align: center; /* Pastikan nama berada di tengah */
+	  margin: 10px 0; /* Jarak antara nama dan elemen lainnya */
+	  
+    }
+
+    .node-content-female {
+      border-radius: 5px;
+      border: none;
+      box-shadow: none;
+	  background-color: transparent;
+	  padding: 30px;
+	  box-sizing: border-box; /* Pastikan padding dihitung dengan benar */
+	  font-size: 20px; /* Perbesar ukuran teks nama */
+	  font-weight: bold; /* Tambahkan ketebalan teks */
+	  text-align: center; /* Pastikan nama berada di tengah */
+	  margin: 10px 0; /* Jarak antara nama dan elemen lainnya */
+    }
+	
+
+    .node.male {
+	  background-image: url('041d7390-0f40-4234-8d61-252294ee95344.png');
+	  background-size: 100%; /* Sesuaikan ukuran */
+	  background-repeat: no-repeat;
+	  padding: 40px; /* Tambahkan padding untuk memberikan ruang */
+	  border-radius: 10px; /* Opsional */
+	  width: 600px; /* Atur ukuran lebar seragam */
+	  height: 600px; /* Atur ukuran tinggi seragam */
+	  border: 40px solid transparent; /* Lebar border */
+	  margin: 20px; /* Jarak antar elemen */
+	  box-sizing: border-box; /* Pastikan padding dihitung dalam ukuran elemen */
+
+
+	}
+
+	.node.female {
+	  background-image: url('e4885951-2f3f-4b53-bf8a-eb319ccdd8af4.png');
+	  background-size: 100%; /* Sesuaikan ukuran */
+	  background-repeat: no-repeat;
+	  padding: 40px; /* Tambahkan padding untuk memberikan ruang */
+	  border-radius: 10px; /* Opsional */
+	  width: 600px; /* Atur ukuran lebar seragam */
+	  height: 600px; /* Atur ukuran tinggi seragam */
+	  border: 40px solid transparent; /* Lebar border */
+	  margin: 20px; /* Jarak antar elemen */
+	  box-sizing: border-box; /* Pastikan padding dihitung dalam ukuran elemen */
+	}
+
+    .photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+	  .heart {
+	  font-size: 80px;
+	  color: red;
+	  background-color: transparent;
+	  margin: 0 10 px; /* Tambahkan jarak horizontal */
+	  align-self: center;
+	  position: relative;
+	  z-index: 1;
+	  top: -60px; /* Geser ke atas untuk berada di atas garis */
+	
+	}
+
+    .family-group {
+      display: flex;
+      flex-wrap: wrap; /* Izinkan elemen membungkus */
+      justify-content: center; /* Pusatkan elemen secara horizontal */
+      gap: 5px; /* Tambahkan jarak antar elemen */
+      margin-top: 100px; /* Tambahkan jarak antar generasi */
+    }
+
+    .couple {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .children {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      position: relative;
+    }
+
+    #tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: center center;
+      transition: transform 0.2s ease;
+      position: relative;
+      margin: 0;
+      padding: 20px;
+    }
+	 #treeContainer {
+	overflow: hidden; /* Sembunyikan bagian di luar area */
+	margin: 0; /* Hilangkan margin di luar */
+	padding: 0; /* Hilangkan padding di luar */
+}
+
+    .toggle-info-btn {
+      background-color: #f67280;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-top: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    .info {
+      font-size: 15px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      margin-top: 5px;
+	  text-align: center; /* Pastikan nama berada di tengah */
+	 	}
+
+    .info.open {
+      max-height: 200px;
+    }
+
+    svg.conn-lines {
+      width: 150%;
+      height: 150%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+	
+	.back-button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #FF8C00;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background-color: #FF7000;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+      .controls {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      header, .controls {
+        display: none; 
+      }
+
+      .tree-frame {
+        page-break-inside: avoid; 
+        margin: 0 auto; 
+        display: block; 
+      }
+
+      body {
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact;
+      }
+
+      body {
+        overflow: hidden; 
+      }
+
+      header, .controls {
+        display: none; 
+      }
+
+      .controls {
+        display: none; 
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h2>Pohon Keluarga Bani Achmad Zabidi</h2>
+  <div style="padding: 1px;">
+  <a href="index.html" class="back-button">Kembali ke Halaman Utama</a>
+</div>
+</header>
+
+<div class="controls">
+  <label>Nama Utama:
+    <select id="rootSelect"></select>
+  </label>
+  <label>Hubungan:
+    <select id="relationSelect">
+      <option value="semua">Semua</option>
+      <option value="anak">Anak</option>
+      <option value="cucu">Cucu</option>
+      <option value="cicit">Cicit</option>
+    </select>
+  </label>
+  <button onclick="zoom(1.1)">Zoom In</button>
+  <button onclick="zoom(0.9)">Zoom Out</button>
+  <button onclick="centerTree()">Pusatkan</button>
+  <button onclick="printTree()">Cetak</button>
+	<button onclick="saveAsPNG()">Simpan Sebagai Gambar</button>
+<!--  <button onclick="debugSaveCanvas()">Simpan Gambar (Debug)</button> -->
+  <button onclick="generatePDFWithJsPDF()">Cetak PDF (jsPDF)</button>
+<!--  <button onclick="generatePDFWithFrame()">Cetak PDF dengan Bingkai</button> -->
+</div>
+
+<div class="tree-container" id="treeContainer">
+  <div class="tree-frame">
+    <div id="tree">
+      <svg class="conn-lines" id="linesSvg"></svg>
+	  
+    </div>
+  </div>
+</div>
+
+<script>
+/* Paste your JavaScript code here */
+// Fungsi untuk memusatkan elemen pada layar
+function centerTreeOnLoad() {
+  const container = document.querySelector('.tree-container');
+  const frame = document.querySelector('.tree-frame');
+
+  if (container && frame) {
+    const containerRect = container.getBoundingClientRect();
+    const frameRect = frame.getBoundingClientRect();
+
+    const offsetX = (frameRect.width - containerRect.width) / 2;
+    const offsetY = (frameRect.height - containerRect.height) / 2;
+
+    container.scrollLeft += frameRect.left - containerRect.left - offsetX;
+    container.scrollTop += frameRect.top - containerRect.top - offsetY;
+  }
+}
+
+// Panggil fungsi ini saat halaman selesai dimuat
+window.addEventListener('load', () => {
+  setTimeout(centerTreeOnLoad, 100); // Beri jeda untuk memastikan elemen sudah dirender
+});
+
+
+
+
+let data = [];
+let scale = 1;
+
+// Fungsi untuk zoom manual
+  function zoom(factor) {
+    scale *= factor;
+    const treeFrame = document.querySelector('.tree-frame');
+    treeFrame.style.transform = `scale(${scale})`;
+    treeFrame.style.transformOrigin = 'center center';
+  }
+
+  // Fungsi untuk menyesuaikan skala otomatis
+  function adjustScale() {
+    const treeContainer = document.querySelector('.tree-container');
+    const treeFrame = document.querySelector('.tree-frame');
+
+    if (treeContainer && treeFrame) {
+      const containerWidth = treeContainer.offsetWidth;
+      const containerHeight = treeContainer.offsetHeight;
+      const frameWidth = treeFrame.offsetWidth;
+      const frameHeight = treeFrame.offsetHeight;
+
+      // Hitung skala berdasarkan lebar dan tinggi
+      const scaleWidth = containerWidth / frameWidth;
+      const scaleHeight = containerHeight / frameHeight;
+
+      // Pilih skala yang lebih kecil agar seluruh pigura muat di layar
+      const scale = Math.min(scaleWidth, scaleHeight);
+
+      // Terapkan skala ke elemen .tree-frame
+      treeFrame.style.transform = `scale(${scale})`;
+      treeFrame.style.transformOrigin = 'center center';
+    }
+  }
+
+  // Panggil adjustScale saat halaman dimuat
+  window.addEventListener('load', adjustScale);
+
+  // Panggil adjustScale saat ukuran jendela diubah
+  window.addEventListener('resize', adjustScale);
+
+  // Fungsi untuk memusatkan pohon keluarga
+  function centerTree() {
+    const container = document.querySelector('.tree-container');
+    const frame = document.querySelector('.tree-frame');
+
+    if (container && frame) {
+      const containerRect = container.getBoundingClientRect();
+      const frameRect = frame.getBoundingClientRect();
+
+      const offsetX = (frameRect.width - containerRect.width) / 2;
+      const offsetY = (frameRect.height - containerRect.height) / 2;
+
+      container.scrollLeft += frameRect.left - containerRect.left - offsetX;
+      container.scrollTop += frameRect.top - containerRect.top - offsetY;
+    }
+  }
+
+function applyScale() {
+  document.getElementById('tree').style.transform = `scale(${scale})`;
+}
+
+function printTree() {
+  window.print();
+}
+
+
+function printTreeFrame() {
+  const originalContents = document.body.innerHTML; // Simpan konten asli
+  const treeFrame = document.querySelector('.tree-frame').outerHTML; // Ambil hanya pigura
+
+  // Ganti isi body dengan hanya pigura
+  document.body.innerHTML = treeFrame;
+  window.print(); // Cetak
+  document.body.innerHTML = originalContents; // Kembalikan konten asli
+}
+
+function buildSelectOptions() {
+  const select = document.getElementById('rootSelect');
+  select.innerHTML = '';
+  data.forEach(d => {
+    const option = document.createElement('option');
+    option.value = d.id_anggota;
+    option.textContent = d.nama;
+    select.appendChild(option);
+  });
+}
+
+
+
+// Modifikasi fungsi createNode untuk membungkus konten dengan div node-content-male atau node-content-female
+  function createNode(person) {
+    const div = document.createElement('div');
+div.className = 'node ' + (person.gender === 'Laki-Laki' ? 'male' : 'female');
+div.id = `person-${person.id_anggota}`;
+div.innerHTML = `
+  <div class="node-content ${person.gender === 'Laki-Laki' ? 'node-content-male' : 'node-content-female'}">
+    <img class="photo" src="assets/img/${person.foto || 'default.jpg'}" alt="${person.nama}" />
+    <strong>${person.nama}</strong><br>
+    <button class="toggle-info-btn" onclick="toggleInfo(this)">Tampilkan Info</button>
+    <div class="info">
+      ${person.gender}<br>
+      Lahir: ${person.tanggal_lahir}<br>
+      Usia: ${person.usia}
+    </div>
+  </div>
+`;
+return div;
+  }
+
+function toggleInfo(button) {
+  const infoDiv = button.nextElementSibling;
+  const isOpen = infoDiv.classList.contains('open');
+  infoDiv.classList.toggle('open');
+  button.textContent = isOpen ? 'Tampilkan Info' : 'Sembunyikan Info';
+}
+
+function buildTree(rootId, depth) {
+  const root = data.find(p => p.id_anggota === rootId);
+  if (!root) return null;
+
+  const pasangan = data.find(p => p.id_anggota === root.id_pasangan);
+  const group = document.createElement('div');
+  group.className = 'family-group';
+
+  const couple = document.createElement('div');
+  couple.className = 'couple';
+  const rootNode = createNode(root);
+
+  if (pasangan) {
+    const pasanganNode = createNode(pasangan);
+    couple.appendChild(rootNode);
+    couple.appendChild(document.createElement('div')).className = 'heart';
+    couple.lastChild.innerHTML = '♥';
+    couple.appendChild(pasanganNode);
+    setTimeout(() => drawPartnerLine(root.id_anggota, pasangan.id_anggota), 0);
+  } else {
+    couple.appendChild(rootNode);
+  }
+  group.appendChild(couple);
+
+  if (depth > 0) {
+    const anak = data
+      .filter(p => p.id_ayah === root.id_anggota || p.id_ibu === root.id_anggota)
+      .sort((a, b) => new Date(a.tanggal_lahir) - new Date(b.tanggal_lahir));
+
+    if (anak.length > 0) {
+      const childrenContainer = document.createElement('div');
+      childrenContainer.className = 'children';
+      anak.forEach(child => {
+        const childTree = buildTree(child.id_anggota, depth - 1);
+        if (childTree) {
+          childrenContainer.appendChild(childTree);
+          setTimeout(() => drawLine(root.id_anggota, child.id_anggota), 0);
+        }
+      });
+      group.appendChild(childrenContainer);
+    }
+  }
+
+  return group;
+}
+
+function drawPartnerLine(id1, id2) {
+  const p1 = document.getElementById(`person-${id1}`);
+  const p2 = document.getElementById(`person-${id2}`);
+  if (!p1 || !p2) return;
+
+  const rect1 = p1.getBoundingClientRect();
+  const rect2 = p2.getBoundingClientRect();
+  const treeRect = document.getElementById('tree').getBoundingClientRect();
+
+  const scale = parseFloat(document.querySelector('.tree-frame').style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1);
+
+  const x1 = (rect1.left + rect1.width / 2.5 - treeRect.left) / scale;
+  const y1 = (rect1.top + rect1.height / 2.5 - treeRect.top) / scale;
+  const x2 = (rect2.left + rect2.width / 2.5 - treeRect.left) / scale;
+  const y2 = (rect2.top + rect2.height / 2.5 - treeRect.top) / scale;
+
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+	path.setAttribute("stroke", "blue"); // Warna konektor
+	path.setAttribute("stroke-width", "4"); // Ketebalan konektor
+	path.setAttribute("stroke-dasharray", "5,5"); // Garis putus-putus
+	path.setAttribute("stroke-opacity", "0.9"); // Transparansi konektor
+	path.setAttribute("fill", "none");
+	path.setAttribute(
+	  "d",
+	  `M${x1},${y1} C${(x1 + x2) / 2},${y1 - 30} ${(x1 + x2) / 2},${y2 - 30} ${x2},${y2}`
+	);
+
+// Tambahkan konektor ke dalam elemen SVG
+document.querySelector("svg").appendChild(path);
+}
+
+function drawLine(parentId, childId) {
+  const parent = document.getElementById(`person-${parentId}`);
+  const child = document.getElementById(`person-${childId}`);
+  if (!parent || !child) return;
+
+  const rect1 = parent.getBoundingClientRect();
+  const rect2 = child.getBoundingClientRect();
+  const treeRect = document.getElementById('tree').getBoundingClientRect();
+
+  const scale = parseFloat(document.querySelector('.tree-frame').style.transform.match(/scale\(([^)]+)\)/)?.[1] || 1);
+
+  // Posisi pangkal konektor (bagian bawah elemen parent)
+  const x1 = (rect1.left + rect1.width / 2 - treeRect.left) / scale; // Pusat horizontal elemen parent
+  const y1 = (rect1.bottom - treeRect.top) / scale; // Bagian bawah elemen parent
+
+  // Posisi ujung konektor (bagian atas elemen child)
+  const x2 = (rect2.left + rect2.width / 2 - treeRect.left) / scale; // Pusat horizontal elemen child
+  const y2 = (rect2.top - treeRect.top) / scale; // Bagian atas elemen child
+
+  // Buat path konektor
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("stroke", "gray"); // Warna garis
+  path.setAttribute("stroke-width", "3"); // Ketebalan garis
+  path.setAttribute("fill", "none");
+  path.setAttribute(
+    "d",
+    `M${x1},${y1} C${x1},${(y1 + y2) / 2} ${x2},${(y1 + y2) / 2} ${x2},${y2}`
+  );
+
+  document.getElementById('linesSvg').appendChild(path);
+}
+
+function renderTree() {
+  const rootId = document.getElementById('rootSelect').value;
+  const relation = document.getElementById('relationSelect').value;
+  const container = document.getElementById('tree');
+
+  // Hapus konektor lama
+  const linesSvg = document.getElementById('linesSvg');
+  linesSvg.innerHTML = '';
+
+  container.innerHTML = '<svg class="conn-lines" id="linesSvg"></svg>';
+
+  const depthMap = { semua: 5, anak: 1, cucu: 2, cicit: 3 };
+  const tree = buildTree(rootId, depthMap[relation]);
+  if (tree) {
+    container.appendChild(tree);
+
+    // Gunakan requestAnimationFrame untuk menggambar konektor
+    requestAnimationFrame(() => {
+      const root = data.find(p => p.id_anggota === rootId);
+      drawAllConnections(root, depthMap[relation]); // Gambar ulang konektor
+    });
+  }
+}
+
+function drawAllConnections(root, depth) {
+  if (!root || depth < 0) return;
+
+  const pasangan = data.find(p => p.id_anggota === root.id_pasangan);
+  if (pasangan) {
+    drawPartnerLine(root.id_anggota, pasangan.id_anggota);
+  }
+
+  const anak = data.filter(p => p.id_ayah === root.id_anggota || p.id_ibu === root.id_anggota);
+  anak.forEach(child => {
+    drawLine(root.id_anggota, child.id_anggota);
+    drawAllConnections(child, depth - 1); // Rekursif untuk anak-anak
+  });
+}
+
+
+// Ambil data dari backend
+fetch('http://localhost/Silsilah-Keluarga-Bani-Achmad-Zabidi/backend/anggota_api.php?action=get_all')
+  .then(response => response.json())
+  .then(json => {
+    data = json;
+    buildSelectOptions();
+    renderTree();
+	setTimeout(centerTreeOnLoad, 100); // Pusatkan tampilan setelah pohon dirender
+  })
+  .catch(error => {
+    console.error('Gagal mengambil data:', error);
+  });
+
+document.getElementById('rootSelect').addEventListener('change', renderTree);
+document.getElementById('relationSelect').addEventListener('change', renderTree);
+
+// Scroll Zoom
+const container = document.getElementById('treeContainer');
+container.addEventListener('wheel', function(e) {
+  e.preventDefault();
+  scale += (e.deltaY < 0 ? 0.1 : -0.1);
+  scale = Math.max(0.3, Math.min(3, scale));
+  applyScale();
+}, { passive: false });
+
+
+  // Event listener untuk scroll zoom
+ // document.querySelector('.tree-container').addEventListener('wheel', function (event) {
+  ///  event.preventDefault(); // Hindari perilaku scroll default
+  //  const zoomFactor = event.deltaY < 0 ? 1.1 : 0.9; // Zoom in jika scroll ke atas, zoom out jika ke bawah
+  //  zoom(zoomFactor);
+  //});
+
+// Pinch Zoom
+let startDist = null;
+container.addEventListener('touchstart', function(e) {
+  if (e.touches.length === 2) {
+    startDist = getTouchDist(e.touches[0], e.touches[1]);
+  }
+}, { passive: false });
+
+container.addEventListener('touchmove', function(e) {
+  if (e.touches.length === 2 && startDist !== null) {
+    e.preventDefault();
+    const currentDist = getTouchDist(e.touches[0], e.touches[1]);
+    const diff = currentDist - startDist;
+    if (Math.abs(diff) > 5) {
+      scale += diff * 0.001;
+      scale = Math.max(0.3, Math.min(3, scale));
+      applyScale();
+      startDist = currentDist;
+    }
+  }
+}, { passive: false });
+
+function getTouchDist(touch1, touch2) {
+  const dx = touch1.clientX - touch2.clientX;
+  const dy = touch1.clientY - touch2.clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+container.addEventListener('touchmove', function(e) {
+  if (e.touches.length === 2 && startDist !== null) {
+    e.preventDefault();
+    const currentDist = getTouchDist(e.touches[0], e.touches[1]);
+    const scaleChange = currentDist / startDist;
+    startDist = currentDist;
+
+    // Update skala dan batas maksimal/minimal
+    scale *= scaleChange;
+    scale = Math.max(0.3, Math.min(3, scale));
+    applyScale();
+  }
+}, { passive: false });
+
+container.addEventListener('touchend', function(e) {
+  if (e.touches.length < 2) {
+    startDist = null;
+  }
+});
+
+
+// Drag navigasi
+let isDragging = false;
+let startX, startY, scrollLeft, scrollTop;
+container.addEventListener('mousedown', e => {
+  isDragging = true;
+  container.style.cursor = 'grabbing';
+  startX = e.pageX - container.offsetLeft;
+  startY = e.pageY - container.offsetTop;
+  scrollLeft = container.scrollLeft;
+  scrollTop = container.scrollTop;
+});
+container.addEventListener('mouseleave', () => { isDragging = false; container.style.cursor = 'default'; });
+container.addEventListener('mouseup', () => { isDragging = false; container.style.cursor = 'default'; });
+container.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  e.preventDefault();
+  const x = e.pageX - container.offsetLeft;
+  const y = e.pageY - container.offsetTop;
+  container.scrollLeft = scrollLeft - (x - startX);
+  container.scrollTop = scrollTop - (y - startY);
+});
+
+
+//function scaleToFit() {
+//  const container = document.querySelector('.tree-frame');
+//  const tree = document.querySelector('.tree');
+
+//  const scaleX = container.clientWidth / tree.scrollWidth;
+//  const scaleY = container.clientHeight / tree.scrollHeight;
+
+//  const scale = Math.min(scaleX, scaleY);
+
+//  tree.style.transform = `scale(${scale})`;
+//  tree.style.transformOrigin = 'top left';
+//}
+//window.addEventListener('load', scaleToFit);
+//window.addEventListener('resize', scaleToFit);
+
+function saveAsPNG() {
+  const treeContainer = document.getElementById('treeContainer'); // Elemen yang ingin disimpan
+
+  // Gunakan html2canvas untuk menangkap elemen
+  html2canvas(treeContainer, { scale: 10, useCORS: true })
+    .then(canvas => {
+      // Konversi canvas ke data URL
+      const imgData = canvas.toDataURL('image/png');
+
+      // Buat elemen <a> untuk mengunduh file
+      const link = document.createElement('a');
+      link.href = imgData;
+      link.download = 'silsilah-keluarga.png'; // Nama file PNG
+      link.click(); // Simpan gambar
+    })
+    .catch(error => {
+      console.error('Gagal menyimpan sebagai PNG:', error);
+    });
+}
+
+function prepareForPDF() {
+  const treeFrame = document.querySelector('.tree-frame');
+  treeFrame.style.transform = 'none'; // Hilangkan transformasi
+}
+
+function resetAfterPDF() {
+  const treeFrame = document.querySelector('.tree-frame');
+  treeFrame.style.transform = ''; // Kembalikan transformasi
+}
+
+function printTreeAsPDF() {
+  prepareForPDF(); // Hilangkan transformasi sebelum cetak
+
+  const treeContainer = document.getElementById('treeContainer');
+
+  const options = {
+    margin: [0.5, 0.5, 0.5, 0.5],
+    filename: 'silsilah-keluarga.pdf',
+    image: { type: 'jpeg', quality: 1.0 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+  };
+
+  html2pdf()
+    .set(options)
+    .from(treeContainer)
+    .save()
+    .finally(() => resetAfterPDF()); // Kembalikan transformasi setelah cetak
+}
+
+function debugSaveCanvas() {
+  const treeContainer = document.getElementById('treeContainer');
+
+  html2canvas(treeContainer, { scale: 2, useCORS: true }).then(canvas => {
+    // Simpan gambar sebagai file
+    const link = document.createElement('a');
+    link.download = 'silsilah-keluarga-debug.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }).catch(error => {
+    console.error('Gagal menyimpan gambar:', error);
+  });
+}
+
+function generatePDFWithJsPDF() {
+  const { jsPDF } = window.jspdf; // Pastikan jsPDF diakses dari window.jspdf
+  const treeContainer = document.getElementById('treeContainer');
+
+  if (!treeContainer) {
+    console.error('Elemen dengan ID "treeContainer" tidak ditemukan.');
+    return;
+  }
+
+  html2canvas(treeContainer, { scale: 4, useCORS: true, logging: true })
+    .then(canvas => {
+      const imgData = canvas.toDataURL('image/png'); // Konversi elemen ke gambar
+      const pdf = new jsPDF('landscape', 'mm', 'a4'); // Buat PDF dengan ukuran A4
+      const imgWidth = 297; // Lebar A4 dalam mm
+      const imgHeight = canvas.height * imgWidth / canvas.width; // Hitung tinggi proporsional
+
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('silsilah-keluarga.pdf');
+    })
+    .catch(error => {
+      console.error('Gagal membuat PDF:', error);
+    });
+}
+
+function drawStraightLine(x1, y1, x2, y2, color = 'gray', strokeWidth = 2) {
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", x1);
+  line.setAttribute("y1", y1);
+  line.setAttribute("x2", x2);
+  line.setAttribute("y2", y2);
+  line.setAttribute("stroke", color); // Warna garis
+  line.setAttribute("stroke-width", strokeWidth); // Ketebalan garis
+  line.setAttribute("stroke-linecap", "round"); // Ujung garis bulat
+  return line;
+}
+
+// Contoh penggunaan
+const svg = document.querySelector("svg");
+const line = drawStraightLine(100, 100, 300, 300, 'blue', 3); // Garis biru dari (100,100) ke (300,300)
+svg.appendChild(line);
+
+
+</script>
+</body>
+</html>
