@@ -1,0 +1,339 @@
+[
+{
+    "type": "header",
+    "version": "5.0.2",
+    "comment": "Export to JSON plugin for PHPMyAdmin"
+},
+{
+    "type": "database",
+    "name": "silsilah_keluarga"
+},
+{
+    "type": "table",
+    "name": "anggota_keluarga",
+    "database": "silsilah_keluarga",
+    "data": 
+[
+{
+    "id_anggota": "2",
+    "nama": "Achmad Zabidi",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1942-03-08",
+    "usia": "83",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "5",
+    "foto": "foto_2.jpg"
+},
+{
+    "id_anggota": "3",
+    "nama": "Masfuri",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2025-04-17",
+    "usia": "0",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "6",
+    "foto": "foto_3.jpg"
+},
+{
+    "id_anggota": "4",
+    "nama": "Syahrul Munir",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1983-02-08",
+    "usia": "42",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": "7",
+    "foto": "foto_4.jpg"
+},
+{
+    "id_anggota": "5",
+    "nama": "Khuzaemah",
+    "gender": "Perempuan",
+    "tanggal_lahir": "1949-12-31",
+    "usia": "75",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "2",
+    "foto": "foto_5.jpg"
+},
+{
+    "id_anggota": "6",
+    "nama": "Rihlatun Nasihah",
+    "gender": "Perempuan",
+    "tanggal_lahir": "1979-04-17",
+    "usia": "46",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": "3",
+    "foto": "foto_6.jpg"
+},
+{
+    "id_anggota": "7",
+    "nama": "Mifrohatul janah",
+    "gender": "Perempuan",
+    "tanggal_lahir": "2022-06-22",
+    "usia": "2",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "4",
+    "foto": "foto_7.png"
+},
+{
+    "id_anggota": "8",
+    "nama": "Muhammad Husam El-imtiyaz Assyahmi",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2017-11-04",
+    "usia": "7",
+    "id_ayah": "4",
+    "id_ibu": "7",
+    "id_pasangan": null,
+    "foto": "foto_8.jpg"
+},
+{
+    "id_anggota": "9",
+    "nama": "Dinda Naraya Elibtihaj Assyahmi",
+    "gender": "Perempuan",
+    "tanggal_lahir": "2020-11-07",
+    "usia": "4",
+    "id_ayah": "4",
+    "id_ibu": "7",
+    "id_pasangan": null,
+    "foto": "foto_9.jpg"
+},
+{
+    "id_anggota": "10",
+    "nama": "Muhammad Syauqie El-Fawaz Assyahmi",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2011-12-16",
+    "usia": "13",
+    "id_ayah": "4",
+    "id_ibu": "7",
+    "id_pasangan": null,
+    "foto": "foto_10.jpg"
+},
+{
+    "id_anggota": "11",
+    "nama": "Akmala Naila Ashlihatina",
+    "gender": "Perempuan",
+    "tanggal_lahir": "2006-10-18",
+    "usia": "18",
+    "id_ayah": "3",
+    "id_ibu": "6",
+    "id_pasangan": "14",
+    "foto": "foto_11.jpg"
+},
+{
+    "id_anggota": "12",
+    "nama": "Muhammad Ainunni'am",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2015-02-26",
+    "usia": "10",
+    "id_ayah": "3",
+    "id_ibu": "6",
+    "id_pasangan": null,
+    "foto": "foto_12.jpg"
+},
+{
+    "id_anggota": "14",
+    "nama": "paijo",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2022-10-12",
+    "usia": "2",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "11",
+    "foto": ""
+},
+{
+    "id_anggota": "15",
+    "nama": "kampleng",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2025-04-27",
+    "usia": "0",
+    "id_ayah": "14",
+    "id_ibu": "11",
+    "id_pasangan": null,
+    "foto": ""
+},
+{
+    "id_anggota": "16",
+    "nama": "Syamsul Ma'arif",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1968-06-01",
+    "usia": "56",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": null,
+    "foto": ""
+},
+{
+    "id_anggota": "17",
+    "nama": "Miftahul Falah",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1970-04-26",
+    "usia": "55",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": "21",
+    "foto": ""
+},
+{
+    "id_anggota": "18",
+    "nama": "Saeful Mu'minin",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1977-08-03",
+    "usia": "47",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": "24",
+    "foto": "foto_18.jpg"
+},
+{
+    "id_anggota": "19",
+    "nama": "Mifrokhah",
+    "gender": "Perempuan",
+    "tanggal_lahir": "1965-03-16",
+    "usia": "60",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": null,
+    "foto": ""
+},
+{
+    "id_anggota": "20",
+    "nama": "Siti Muyasaroh",
+    "gender": "Perempuan",
+    "tanggal_lahir": "1972-10-07",
+    "usia": "52",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": "26",
+    "foto": ""
+},
+{
+    "id_anggota": "21",
+    "nama": "Sri Wahyuningsih",
+    "gender": "Perempuan",
+    "tanggal_lahir": "1976-01-10",
+    "usia": "49",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "17",
+    "foto": ""
+},
+{
+    "id_anggota": "22",
+    "nama": "Muhamad Hikam Maulana Azzuhri",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1999-06-07",
+    "usia": "25",
+    "id_ayah": "17",
+    "id_ibu": "21",
+    "id_pasangan": null,
+    "foto": ""
+},
+{
+    "id_anggota": "23",
+    "nama": "Muhammad Syifa Aulia Rahman",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2004-06-15",
+    "usia": "20",
+    "id_ayah": "17",
+    "id_ibu": "21",
+    "id_pasangan": null,
+    "foto": ""
+},
+{
+    "id_anggota": "24",
+    "nama": "Novi Wahyuni",
+    "gender": "Perempuan",
+    "tanggal_lahir": "1977-08-01",
+    "usia": "47",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "18",
+    "foto": ""
+},
+{
+    "id_anggota": "25",
+    "nama": "Muhammad Rifqi Akhtar Ramadhan",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2005-10-27",
+    "usia": "19",
+    "id_ayah": "18",
+    "id_ibu": "24",
+    "id_pasangan": null,
+    "foto": ""
+},
+{
+    "id_anggota": "26",
+    "nama": "Budi Santoso",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1968-08-19",
+    "usia": "56",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "20",
+    "foto": "foto_26.jpg"
+},
+{
+    "id_anggota": "27",
+    "nama": "Fajar Ramadhan",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2002-11-09",
+    "usia": "22",
+    "id_ayah": "26",
+    "id_ibu": "20",
+    "id_pasangan": null,
+    "foto": "foto_27.jpg"
+},
+{
+    "id_anggota": "28",
+    "nama": "Muhammad Fahmi Muzakki",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "2004-11-01",
+    "usia": "20",
+    "id_ayah": "26",
+    "id_ibu": "20",
+    "id_pasangan": null,
+    "foto": ""
+},
+{
+    "id_anggota": "29",
+    "nama": "Farah Aulia Rahmah",
+    "gender": "Perempuan",
+    "tanggal_lahir": "2007-06-05",
+    "usia": "17",
+    "id_ayah": "26",
+    "id_ibu": "20",
+    "id_pasangan": null,
+    "foto": "foto_29.jpg"
+},
+{
+    "id_anggota": "30",
+    "nama": "Siti Muzayyanah",
+    "gender": "Perempuan",
+    "tanggal_lahir": "1974-11-09",
+    "usia": "50",
+    "id_ayah": "2",
+    "id_ibu": "5",
+    "id_pasangan": "31",
+    "foto": "P41_119_145.jpg"
+},
+{
+    "id_anggota": "31",
+    "nama": "Sugiyanto",
+    "gender": "Laki-Laki",
+    "tanggal_lahir": "1977-03-31",
+    "usia": "48",
+    "id_ayah": null,
+    "id_ibu": null,
+    "id_pasangan": "30",
+    "foto": "P84_191_202.jpg"
+}
+]
+
+}
+]
