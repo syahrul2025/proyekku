@@ -98,7 +98,7 @@
         const relationResult = document.getElementById("relationResult");
 
         // Fetch family data
-        fetch("http://localhost/Silsilah-Keluarga-Bani-Achmad-Zabidi/backend/anggota_api.php?action=get_all")
+        fetch('./backend/anggota_api.php?action=get_all')
             
 			.then(response => response.json())
             .then(data => {
