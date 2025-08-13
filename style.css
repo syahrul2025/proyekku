@@ -1,0 +1,282 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0; padding: 0;
+  background: #f7f7f7;
+}
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 18px 24px 24px 24px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px #0001;
+}
+.header-title {
+  background: linear-gradient(90deg, #6db3f2 0%, #1e69de 100%);
+  color: #fff;
+  font-size: 2.2em;
+  font-weight: bold;
+  padding: 22px 0 18px 0;
+  border-radius: 12px 12px 0 0;
+  text-align: center;
+  box-shadow: 0 4px 18px 0 #1e3a5c22;
+  letter-spacing: 1px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.header-title::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 5px;
+  border-radius: 6px;
+  background: #fff8;
+  margin-top: 12px;
+}
+h1, h2 {
+  margin-top: 0;
+  color: #1e3a5c;
+}
+form {
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+form input, form select, form button {
+  padding: 6px 8px;
+  font-size: 1em;
+}
+form button, .btn-primary {
+  background: #2d6cdf;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+form button:hover, .btn-primary:hover {
+  background: #1e3a5c;
+}
+.btn-batal {
+  background: #aaa;
+  color: #fff;
+}
+.btn-batal:hover {
+  background: #666;
+}
+.filters {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filters select {
+  padding: 4px 8px;
+  font-size: 1em;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+th, td {
+  border: 1px solid #e2e2e2;
+  padding: 6px;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* Kolom tanggal dan surat: lebar menyesuaikan isi, wrap text, max/min width */
+#tabel-riwayat th:nth-child(3),
+#tabel-riwayat th:nth-child(4),
+#tabel-riwayat td:nth-child(3),
+#tabel-riwayat td:nth-child(4) {
+  white-space: normal !important;
+  word-break: break-word !important;
+  width: 1%;
+  min-width: 90px;
+  max-width: 240px;
+}
+
+@media (max-width: 800px) {
+  .btn-group-riwayat {
+    flex-direction: column!important;
+    align-items: stretch!important;
+  }
+}
+@media (max-width: 600px) {
+  .container { padding: 8px; }
+  form { flex-direction: column; }
+  .filters { flex-direction: column; }
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  th, td {
+    border: none;
+    padding: 4px 2px;
+  }
+  tr { margin-bottom: 6px; }
+  #tabel-riwayat th:nth-child(3),
+  #tabel-riwayat th:nth-child(4),
+  #tabel-riwayat td:nth-child(3),
+  #tabel-riwayat td:nth-child(4) {
+    max-width: 100%;
+    min-width: 60px;
+    width: auto;
+  }
+}
+
+/* Tombol Reset: font putih, lebih lebar/besar */
+#reset-data {
+  margin-top: 6px;
+  background: #b71c1c;
+  color: #fff !important;
+  min-width: 160px;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  border-radius: 5px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+#reset-data:hover {
+  background: #880808;
+  color: #fff !important;
+}
+
+/* Perbesar dan pertebal tombol utama */
+.btn-primary,
+#btn-export,
+#btn-import,
+#btn-laporan-wali,
+#open-form-siswa {
+  font-size: 1.15em !important;
+  font-weight: bold !important;
+  padding: 12px 20px !important;
+  min-width: 170px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:active,
+#btn-export:active,
+#btn-import:active,
+#btn-laporan-wali:active,
+#open-form-siswa:active {
+  opacity: 0.85;
+}
+
+/* Agar tombol lebih mudah diakses di hp (jarak antar tombol) */
+.btn-group-riwayat {
+  display: flex;
+  gap: 15px;
+  margin: 14px 0 0 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn-group-riwayat button {
+  margin: 0 !important;
+}
+
+@media (max-width: 600px) {
+  #reset-data,
+  .btn-primary,
+  #btn-export,
+  #btn-import,
+  #btn-laporan-wali,
+  #open-form-siswa {
+    font-size: 1.18em !important;
+    padding: 14px 8px !important;
+    min-width: 90vw;
+    box-sizing: border-box;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .btn-group-riwayat {
+    flex-direction: column!important;
+    align-items: stretch!important;
+    gap: 11px;
+  }
+}
+
+/* Progress Bar Styling */
+.progress-bar-container {
+  background: #e0e7ef;
+  border-radius: 6px;
+  width: 100%;
+  height: 16px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar {
+  background: linear-gradient(90deg, #2d6cdf, #4dd29f);
+  height: 100%;
+  width: 0;
+  border-radius: 6px 0 0 6px;
+  color: #fff;
+  text-align: right;
+  font-size: 12px;
+  line-height: 16px;
+  padding-right: 6px;
+  transition: width 1s cubic-bezier(.4,2,.6,1);
+}
+.progress-bar[data-persen-surat] {
+  background: linear-gradient(90deg,#e07e2d,#ffd600);
+  color: #222;
+}
+.modal-bg {
+  display: none;
+  position: fixed;
+  z-index: 40;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(25,38,60,0.15);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px 20px 16px 20px;
+  min-width: 260px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px #0003;
+  animation: modalIn .3s;
+}
+@keyframes modalIn {
+  0% { transform: scale(0.9); opacity:0; }
+  100% { transform: scale(1); opacity:1; }
+}
+#modal-siswa.active, #modal-laporan.active { display: flex; }
+
+.surat-list-detail {
+  background: #f1f6fd;
+  border: 1px solid #b6cef7;
+  border-radius: 4px;
+  padding: 6px 9px;
+  color: #1e3a5c;
+}
+.btn-surat-detail {
+  background: #eaf0fb;
+  border: none;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  color: #2d6cdf;
+  transition: background 0.2s;
+}
+.btn-surat-detail:hover {
+  background: #d5e5fd;
+}
+.section-divider {
+  margin: 30px 0 28px 0;
+  border: none;
+  border-top: 2px solid #eaf0fb;
+  height: 2px;
+}
